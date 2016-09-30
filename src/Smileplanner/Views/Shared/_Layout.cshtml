@@ -1,3 +1,8 @@
+@using Microsoft.AspNetCore.Identity
+@using Smileplanner.Models
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
 <!doctype html>
 <html lang="">
 <head>
@@ -30,6 +35,7 @@
             <menulink class="blue item" asp-area="" controller-name="Home" action-name="About" menu-text="About"></menulink>
             <menulink class="blue item" asp-area="" controller-name="Home" action-name="Contact" menu-text="Contact">Contact</menulink>
 
+           @await Html.PartialAsync("_LoginPartial")
         </div>
     </div>
 
@@ -38,6 +44,20 @@
         <menulink class="blue item" asp-area="" controller-name="Home" action-name="Index" menu-text="Home"></menulink>
         <menulink class="blue item" asp-area="" controller-name="Home" action-name="About" menu-text="About"></menulink>
         <menulink class="blue item" asp-area="" controller-name="Home" action-name="Contact" menu-text="Contact"></menulink>
+
+        @if (SignInManager.IsSignedIn(User))
+        {
+            <div class="blue item"><a asp-controller="Manage" asp-action="Index" title="Manage">Hello @UserManager.GetUserName(User)</a>
+            </div>
+            <form asp-controller="Account" asp-action="LogOff" method="post" id="logoutForm" class="item">
+                <button type="submit" class="ui button">Log off</button>
+            </form>
+        }
+        else
+        {
+            <menulink class="blue item" controller-name="Account" action-name="Login" menu-text="Log in"></menulink>
+            <menulink class="blue item" controller-name="Account" action-name="Register" menu-text="Sign up"></menulink>
+        }
 
     </div>
 
