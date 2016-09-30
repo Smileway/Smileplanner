@@ -1,16 +1,27 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+
 namespace Smileplanner
 {
-    using System.IO;
-    using Microsoft.AspNetCore.Builder;
-    using Microsoft.AspNetCore.Hosting;
-
     public class Program
     {
         public static void Main(string[] args)
         {
+            var config = new ConfigurationBuilder()
+                .AddCommandLine(args)
+                .AddEnvironmentVariables(prefix: "ASPNETCORE_")
+                .Build();
+
             var host = new WebHostBuilder()
-                .UseContentRoot(Directory.GetCurrentDirectory())
+                .UseConfiguration(config)
                 .UseKestrel()
+                .UseContentRoot(Directory.GetCurrentDirectory())
+                .UseIISIntegration()
                 .UseStartup<Startup>()
                 .Build();
 
