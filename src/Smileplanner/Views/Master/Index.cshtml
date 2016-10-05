@@ -55,7 +55,7 @@
 
 <script src="http://mleibman.github.io/SlickGrid/slick.core.js"></script>
 <script src="http://mleibman.github.io/SlickGrid/slick.formatters.js"></script>
-<script src="http://mleibman.github.io/SlickGrid/slick.editors.js"></script>
+<script src="/js/slick.editors.js"></script>
 <script src="http://mleibman.github.io/SlickGrid/slick.grid.js"></script>
 <script src="http://mleibman.github.io/SlickGrid/slick.dataview.js"></script>
 
@@ -85,18 +85,23 @@ var dataView;
 var grid;
 var data = [];
 var columns = [
+  {id: "sel", name: "#", field: "num", behavior: "select", cssClass: "cell-selection", width: 40, cannotTriggerInsert: true, resizable: false, selectable: false },
   {id: "title", name: "Title", field: "title", width: 220, cssClass: "cell-title", formatter: TaskNameFormatter, editor: Slick.Editors.Text, validator: requiredFieldValidator},
   {id: "duration", name: "Duration", field: "duration", editor: Slick.Editors.Text},
   {id: "%", name: "% Complete", field: "percentComplete", width: 80, resizable: false, formatter: Slick.Formatters.PercentCompleteBar, editor: Slick.Editors.PercentComplete},
   {id: "start", name: "Start", field: "start", minWidth: 60, editor: Slick.Editors.Date},
   {id: "finish", name: "Finish", field: "finish", minWidth: 60, editor: Slick.Editors.Date},
-  {id: "effort-driven", name: "Effort Driven", width: 80, minWidth: 20, maxWidth: 80, cssClass: "cell-effort-driven", field: "effortDriven", formatter: Slick.Formatters.Checkmark, editor: Slick.Editors.Checkbox, cannotTriggerInsert: true}
+  {id: "type", name: "Type", field: "type", minWidth: 80, editor: Slick.Editors.TaskStatusSelect},
+  {id: "done", name: "Is Done?", width: 80, minWidth: 20, maxWidth: 80, cssClass: "cell-effort-driven", field: "effortDriven", formatter: Slick.Formatters.Checkmark, editor: Slick.Editors.Checkbox, cannotTriggerInsert: true},
+  {id: "desc", name: "Description", field: "description", width: 200, editor: Slick.Editors.LongText}
 ];
 var options = {
   editable: true,
   enableAddRow: true,
   enableCellNavigation: true,
-  asyncEditorLoading: false
+  asyncEditorLoading: true,
+  forceFitColumns: false,
+  topPanelHeight: 25
 };
 var percentCompleteThreshold = 0;
 var searchString = "";
@@ -142,6 +147,7 @@ $(function () {
       parent = null;
     }
     d["id"] = "id_" + i;
+    d["num"] = i;
     d["indent"] = indent;
     d["parent"] = parent;
     d["title"] = "Task " + i;

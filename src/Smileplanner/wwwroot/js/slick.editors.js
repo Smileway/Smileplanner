@@ -14,6 +14,7 @@
 		"Float": FloatEditor,
         "Date": DateEditor,
         "YesNoSelect": YesNoSelectEditor,
+        "TaskStatusSelect": TaskStatusSelectEditor,
         "Checkbox": CheckboxEditor,
         "PercentComplete": PercentCompleteEditor,
         "LongText": LongTextEditor
@@ -374,6 +375,53 @@
 
     this.serializeValue = function () {
       return ($select.val() == "yes");
+    };
+
+    this.applyValue = function (item, state) {
+      item[args.column.field] = state;
+    };
+
+    this.isValueChanged = function () {
+      return ($select.val() != defaultValue);
+    };
+
+    this.validate = function () {
+      return {
+        valid: true,
+        msg: null
+      };
+    };
+
+    this.init();
+  }
+
+
+  function TaskStatusSelectEditor(args) {
+    var $select;
+    var defaultValue;
+    var scope = this;
+
+    this.init = function () {
+      $select = $("<SELECT tabIndex='0' class='editor-yesno'><OPTION value='-'>-</OPTION><OPTION value='todo'>To Do</OPTION><OPTION value='inprogress'>In Progress</OPTION><OPTION value='inreview'>In Review</OPTION><OPTION value='done'>Done</OPTION></SELECT>");
+      $select.appendTo(args.container);
+      $select.focus();
+    };
+
+    this.destroy = function () {
+      $select.remove();
+    };
+
+    this.focus = function () {
+      $select.focus();
+    };
+
+    this.loadValue = function (item) {
+      $select.val(defaultValue = item[args.column.field]);
+      $select.select();
+    };
+
+    this.serializeValue = function () {
+      return ($select.val());
     };
 
     this.applyValue = function (item, state) {
