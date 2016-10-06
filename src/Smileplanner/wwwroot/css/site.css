@@ -99,7 +99,8 @@
 }
 
 .pusher {
-    padding-top: 53px;
+    /*padding-top: 53px; - Deleted*/
+    padding-top: 30px;
 }
 
 .ui.sidebar.menu {
@@ -130,7 +131,7 @@
 body {
   background: beige;
   padding: 0;
-  margin: 8px;
+  /*margin: 8px;*/
 }
 
 h2 {

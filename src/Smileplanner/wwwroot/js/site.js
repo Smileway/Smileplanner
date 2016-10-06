@@ -14,3 +14,4 @@ $(function () {
 
     $('.ui.checkbox').checkbox();
 });
+
