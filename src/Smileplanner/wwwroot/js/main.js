@@ -124,6 +124,11 @@ $(function () {
     dataView.endUpdate();
     // initialize the grid
     grid = new Slick.Grid("#myGrid", dataView, columns, options);
+
+    var GanttColumnPlugin = new Slick.Plugins.GanttColumn();
+    GanttColumnPlugin.handleSelectedRowsChanged = true;
+    grid.registerPlugin( GanttColumnPlugin );
+
     var pager = new Slick.Controls.Pager(dataView, grid, $("#pager"));
 
     grid.onCellChange.subscribe(function (e, args) {
