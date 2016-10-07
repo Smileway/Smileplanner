@@ -1,4 +1,6 @@
 
+
+
 function requiredFieldValidator(value) {
     if (value == null || value == undefined || !value.length) {
         return { valid: false, msg: "This is a required field" };
@@ -23,6 +25,20 @@ var TaskNameFormatter = function (row, cell, value, columnDef, dataContext) {
 var dataView;
 var grid;
 var data = [];
+
+var status_options = {
+    "TD": "To Do",
+    "IP": "In Progress",
+    "IR": "In Review"
+};
+var type_options = {
+    "US": "User Stories",
+    "T": "Task",
+    "B": "Bug"
+};
+var resource_options = {
+    "HN": "Huy Nguyen"
+};
 var columns = [
     { id: "sel", name: "#", field: "num", behavior: "select", cssClass: "cell-selection", width: 40, cannotTriggerInsert: true, resizable: false, selectable: false },
     { id: "title", name: "Title", field: "title", width: 220, cssClass: "cell-title", formatter: TaskNameFormatter, editor: Slick.Editors.Text, validator: requiredFieldValidator },
@@ -30,7 +46,9 @@ var columns = [
     { id: "%", name: "% Complete", field: "percentComplete", width: 80, resizable: false, formatter: Slick.Formatters.PercentCompleteBar, editor: Slick.Editors.PercentComplete },
     { id: "start", name: "Start", field: "start", minWidth: 60, editor: Slick.Editors.Date },
     { id: "finish", name: "Finish", field: "finish", minWidth: 60, editor: Slick.Editors.Date },
-    { id: "type", name: "Type", field: "type", minWidth: 80, editor: Slick.Editors.TaskStatusSelect },
+    { id: "status", name: "Status", field: "status", minWidth: 80, editor: Slick.Editors.Select, options: status_options },
+    { id: "type", name: "Type", field: "type", minWidth: 80, editor: Slick.Editors.Select, options: type_options },
+    { id: "pic", name: "PIC", field: "pic", minWidth: 80, editor: Slick.Editors.Select, options: resource_options },
     { id: "done", name: "Is Done?", width: 80, minWidth: 20, maxWidth: 80, cssClass: "cell-effort-driven", field: "effortDriven", formatter: Slick.Formatters.Checkmark, editor: Slick.Editors.Checkbox, cannotTriggerInsert: true },
     { id: "desc", name: "Description", field: "description", width: 200, editor: Slick.Editors.LongText }
 ];
@@ -94,6 +112,8 @@ $(function () {
         d["percentComplete"] = Math.round(Math.random() * 100);
         d["start"] = "01/01/2009";
         d["finish"] = "01/05/2009";
+        //d["pic"];
+        
         d["effortDriven"] = (i % 5 == 0);
     }
     // initialize the model
