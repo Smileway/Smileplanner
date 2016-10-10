@@ -11,12 +11,13 @@
       "Editors": {
         "Text": TextEditor,
         "Integer": IntegerEditor,
-		"Float": FloatEditor,
+        "Float": FloatEditor,
         "Date": DateEditor,
         "YesNoSelect": YesNoSelectEditor,
         "Checkbox": CheckboxEditor,
         "PercentComplete": PercentCompleteEditor,
         "LongText": LongTextEditor
+        //"StatusNoSelect": StatusSelectEditor
       }
     }
   });
@@ -28,14 +29,14 @@
 
     this.init = function () {
       $input = $("<INPUT type=text class='editor-text' />")
-          .appendTo(args.container)
-          .on("keydown.nav", function (e) {
-            if (e.keyCode === $.ui.keyCode.LEFT || e.keyCode === $.ui.keyCode.RIGHT) {
-              e.stopImmediatePropagation();
-            }
-          })
-          .focus()
-          .select();
+        .appendTo(args.container)
+        .on("keydown.nav", function (e) {
+          if (e.keyCode === $.ui.keyCode.LEFT || e.keyCode === $.ui.keyCode.RIGHT) {
+            e.stopImmediatePropagation();
+          }
+        })
+        .focus()
+        .select();
     };
 
     this.destroy = function () {
@@ -185,24 +186,24 @@
       $input.focus();
     };
 
-	function getDecimalPlaces() {
-		// returns the number of fixed decimal places or null
-		var rtn = args.column.editorFixedDecimalPlaces;
-		if (typeof rtn == 'undefined') {
-			rtn = FloatEditor.DefaultDecimalPlaces;
-		}
-		return (!rtn && rtn!==0 ? null : rtn);
-	}
+    function getDecimalPlaces() {
+      // returns the number of fixed decimal places or null
+      var rtn = args.column.editorFixedDecimalPlaces;
+      if (typeof rtn == 'undefined') {
+        rtn = FloatEditor.DefaultDecimalPlaces;
+      }
+      return (!rtn && rtn !== 0 ? null : rtn);
+    }
 
     this.loadValue = function (item) {
       defaultValue = item[args.column.field];
 
-	  var decPlaces = getDecimalPlaces();
-	  if (decPlaces !== null
-	  && (defaultValue || defaultValue===0)
-	  && defaultValue.toFixed) {
-		defaultValue = defaultValue.toFixed(decPlaces);
-	  }
+      var decPlaces = getDecimalPlaces();
+      if (decPlaces !== null
+        && (defaultValue || defaultValue === 0)
+        && defaultValue.toFixed) {
+        defaultValue = defaultValue.toFixed(decPlaces);
+      }
 
       $input.val(defaultValue);
       $input[0].defaultValue = defaultValue;
@@ -210,14 +211,14 @@
     };
 
     this.serializeValue = function () {
-	  var rtn = parseFloat($input.val()) || 0;
+      var rtn = parseFloat($input.val()) || 0;
 
-	  var decPlaces = getDecimalPlaces();
-	  if (decPlaces !== null
-	  && (rtn || rtn===0)
-	  && rtn.toFixed) {
-		rtn = parseFloat(rtn.toFixed(decPlaces));
-	  }
+      var decPlaces = getDecimalPlaces();
+      if (decPlaces !== null
+        && (rtn || rtn === 0)
+        && rtn.toFixed) {
+        rtn = parseFloat(rtn.toFixed(decPlaces));
+      }
 
       return rtn;
     };
@@ -304,8 +305,8 @@
         return;
       }
       $.datepicker.dpDiv
-          .css("top", position.top + 30)
-          .css("left", position.left);
+        .css("top", position.top + 30)
+        .css("left", position.left);
     };
 
     this.focus = function () {
@@ -533,13 +534,13 @@
       var $container = $("body");
 
       $wrapper = $("<DIV style='z-index:10000;position:absolute;background:white;padding:5px;border:3px solid gray; -moz-border-radius:10px; border-radius:10px;'/>")
-          .appendTo($container);
+        .appendTo($container);
 
       $input = $("<TEXTAREA hidefocus rows=5 style='backround:white;width:250px;height:80px;border:0;outline:0'>")
-          .appendTo($wrapper);
+        .appendTo($wrapper);
 
       $("<DIV style='text-align:right'><BUTTON>Save</BUTTON><BUTTON>Cancel</BUTTON></DIV>")
-          .appendTo($wrapper);
+        .appendTo($wrapper);
 
       $wrapper.find("button:first").on("click", this.save);
       $wrapper.find("button:last").on("click", this.cancel);
@@ -583,8 +584,8 @@
 
     this.position = function (position) {
       $wrapper
-          .css("top", position.top - 5)
-          .css("left", position.left - 5)
+        .css("top", position.top - 5)
+        .css("left", position.left - 5)
     };
 
     this.destroy = function () {
