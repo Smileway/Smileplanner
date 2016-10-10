@@ -14,7 +14,7 @@ var $event = $.event,
 // ref the special event config
 drag = $event.special.drag,
 // old drag event add method
-origadd = drag.add,
+origadd = drag.add;
 // old drag event teradown method
 origteardown = drag.teardown;
 

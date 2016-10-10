@@ -36,19 +36,23 @@ var type_options = {
     "T": "Task",
     "B": "Bug"
 };
+
+var priority_options = { "Low": "Low", "Medium": "Medium", "High": "High" };
 var resource_options = {
-    "HN": "Huy Nguyen"
+    "HN": "Huy Nguyen",
+    "TQ": "Tran Quan"
 };
 var columns = [
     { id: "sel", name: "#", field: "num", behavior: "select", cssClass: "cell-selection", width: 40, cannotTriggerInsert: true, resizable: false, selectable: false },
     { id: "title", name: "Title", field: "title", width: 220, cssClass: "cell-title", formatter: TaskNameFormatter, editor: Slick.Editors.Text, validator: requiredFieldValidator },
+    { id: "type", name: "Type", field: "type", minWidth: 80, editor: Slick.Editors.Select, options: type_options },
     { id: "duration", name: "Duration", field: "duration", editor: Slick.Editors.Text },
     { id: "%", name: "% Complete", field: "percentComplete", width: 80, resizable: false, formatter: Slick.Formatters.PercentCompleteBar, editor: Slick.Editors.PercentComplete },
     { id: "start", name: "Start", field: "start", minWidth: 60, editor: Slick.Editors.Date },
     { id: "finish", name: "Finish", field: "finish", minWidth: 60, editor: Slick.Editors.Date },
     { id: "status", name: "Status", field: "status", minWidth: 80, editor: Slick.Editors.Select, options: status_options },
-    { id: "type", name: "Type", field: "type", minWidth: 80, editor: Slick.Editors.Select, options: type_options },
-    { id: "pic", name: "PIC", field: "pic", minWidth: 80, editor: Slick.Editors.Select, options: resource_options },
+    { id: "priority", name: "Priority", field: "priority", width: 80, selectable: false, resizable: false},
+    { id: "pic", name: "PIC", field: "pic", minWidth: 80, editor: Slick.Editors.Selects, options: resource_options },
     { id: "done", name: "Is Done?", width: 80, minWidth: 20, maxWidth: 80, cssClass: "cell-effort-driven", field: "effortDriven", formatter: Slick.Formatters.Checkmark, editor: Slick.Editors.Checkbox, cannotTriggerInsert: true },
     { id: "desc", name: "Description", field: "description", width: 200, editor: Slick.Editors.LongText }
 ];
@@ -87,7 +91,7 @@ $(function () {
     var indent = 0;
     var parents = [];
     // prepare the data
-    for (var i = 0; i < 200; i++) {
+    for (var i = 0; i < 50; i++) {
         var d = (data[i] = {});
         var parent;
         if (Math.random() > 0.8 && i > 0) {
@@ -112,6 +116,7 @@ $(function () {
         d["percentComplete"] = Math.round(Math.random() * 100);
         d["start"] = "01/01/2009";
         d["finish"] = "01/05/2009";
+        d["priority"] = "Low";
         //d["pic"];
         
         d["effortDriven"] = (i % 5 == 0);
@@ -151,6 +156,28 @@ $(function () {
     });
 
     grid.onClick.subscribe(function (e, args) {
+        var cell = grid.getCellFromEvent(e);
+        if (grid.getColumns()[cell.cell].id == "priority") {
+            if (!grid.getEditorLock().commitCurrentEdit()) {
+            return;
+            }
+            //data[cell.row].priority = priority_options[data[cell.row].priority];
+            switch (data[cell.row].priority) {
+                default:
+                case "Low":
+                    data[cell.row].priority = "Medium";
+                break;
+                case "Medium":
+                    data[cell.row].priority = "High";
+                break;
+                case "High":
+                    data[cell.row].priority = "Low";
+                break;
+            }
+            grid.updateRow(cell.row);
+            e.stopPropagation();
+        }
+
         if ($(e.target).hasClass("toggle")) {
             var item = dataView.getItem(args.row);
             if (item) {

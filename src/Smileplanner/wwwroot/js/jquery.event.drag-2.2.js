@@ -374,11 +374,7 @@ $event.dispatch = function( event ){
 };
 
 // event fix hooks for touch events...
-var touchHooks = 
-$event.fixHooks.touchstart = 
-$event.fixHooks.touchmove = 
-$event.fixHooks.touchend =
-$event.fixHooks.touchcancel = {
+var touchHooks = { // $event.fixHooks.touchstart = $event.fixHooks.touchmove = $event.fixHooks.touchend = $event.fixHooks.touchcancel =
 	props: "clientX clientY pageX pageY screenX screenY".split( " " ),
 	filter: function( event, orig ) {
 		if ( orig ){
