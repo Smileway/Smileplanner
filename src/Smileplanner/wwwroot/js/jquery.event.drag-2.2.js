@@ -178,11 +178,6 @@ drag = $special.drag = {
 			case !dd.dragging && 'touchmove': 
 				event.preventDefault();
 			case !dd.dragging && 'mousemove':
-<<<<<<< HEAD
-				//  drag tolerance, x² + y² = distance²
-=======
-				//  drag tolerance, xâ‰¤ + yâ‰¤ = distanceâ‰¤
->>>>>>> d14e6e10cf0b1825fbfdb6f137364f244d95abd6
 				if ( Math.pow(  event.pageX-dd.pageX, 2 ) + Math.pow(  event.pageY-dd.pageY, 2 ) < Math.pow( dd.distance, 2 ) ) 
 					break; // distance tolerance not reached
 				event.target = dd.target; // force target from "mousedown" event (fix distance issue)

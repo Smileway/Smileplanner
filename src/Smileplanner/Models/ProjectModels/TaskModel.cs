@@ -12,7 +12,7 @@ namespace Smileplanner.Models.TaskModels
     }
     public class TaskModel
     {
-        public int UID {get;set;};
+        public int UID {get;set;}
         public string Title { get; set; }
         public float Duration { get; set; }
     }
