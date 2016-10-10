@@ -1,1 +1,351 @@
-.hidden.menu{display:none}.masthead{margin-top:15px !important;margin-bottom:15px !important}.masthead.segment{min-height:700px;padding:1em 0}.masthead .logo.item img{margin-right:1em}.masthead .ui.menu .ui.button{margin-left:.5em}.masthead h1.ui.header{margin-top:3em;margin-bottom:0;font-size:4em;font-weight:normal}.masthead h2{font-size:1.7em;font-weight:normal}.ui.vertical.stripe{padding:8em 0}.ui.vertical.stripe h3{font-size:2em}.ui.vertical.stripe .button+h3,.ui.vertical.stripe p+h3{margin-top:3em}.ui.vertical.stripe .floated.image{clear:both}.ui.vertical.stripe p{font-size:1.33em}.ui.vertical.stripe .horizontal.divider{margin:3em 0}.quote.stripe.segment{padding:0}.quote.stripe.segment .grid .column{padding-top:5em;padding-bottom:5em}.footer.segment{padding:5em 0;margin-top:15px !important}.secondary.pointing.menu .toc.item{display:none}.ui.top.menu .toc.item{display:none}@media only screen and (max-width:700px){.ui.top.menu .toc.item{display:block}.ui.top.menu .item{display:none}}.login-container{position:relative !important}.content{padding-top:15px}.pusher{padding-top:53px}.ui.sidebar.menu{padding-top:53px}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+.hidden.menu {
+    display: none;
+}
+
+.masthead {
+    margin-top: 15px !important;
+    margin-bottom: 15px !important;
+}
+
+.masthead.segment {
+    min-height: 700px;
+    padding: 1em 0em;
+}
+
+.masthead .logo.item img {
+    margin-right: 1em;
+}
+
+.masthead .ui.menu .ui.button {
+    margin-left: 0.5em;
+}
+
+.masthead h1.ui.header {
+    margin-top: 3em;
+    margin-bottom: 0em;
+    font-size: 4em;
+    font-weight: normal;
+}
+
+.masthead h2 {
+    font-size: 1.7em;
+    font-weight: normal;
+}
+
+.ui.vertical.stripe {
+    padding: 8em 0em;
+}
+
+.ui.vertical.stripe h3 {
+    font-size: 2em;
+}
+
+.ui.vertical.stripe .button + h3,
+.ui.vertical.stripe p + h3 {
+    margin-top: 3em;
+}
+
+.ui.vertical.stripe .floated.image {
+    clear: both;
+}
+
+.ui.vertical.stripe p {
+    font-size: 1.33em;
+}
+
+.ui.vertical.stripe .horizontal.divider {
+    margin: 3em 0em;
+}
+
+.quote.stripe.segment {
+    padding: 0em;
+}
+
+.quote.stripe.segment .grid .column {
+    padding-top: 5em;
+    padding-bottom: 5em;
+}
+
+.footer.segment {
+    padding: 5em 0em;
+    margin-top: 15px !important;
+}
+
+.secondary.pointing.menu .toc.item {
+    display: none;
+}
+
+.ui.top.menu .toc.item {
+    display: none;
+}
+
+
+@media only screen and (max-width: 700px) {
+    .ui.top.menu .toc.item {
+        display: block;
+    }
+
+    .ui.top.menu .item {
+        display: none;
+    }
+}
+
+.login-container {
+    position: relative !important;
+}
+
+.content {
+    padding-top: 15px;
+}
+
+.pusher {
+    /*padding-top: 53px; - Deleted*/
+    padding-top: 30px;
+}
+
+.ui.sidebar.menu {
+    padding-top: 53px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+
+
+/*----------------------------*/
+@import url('../slick-default-theme.css');
+
+* {
+  font-family: arial;
+  font-size: 8pt;
+}
+
+body {
+  background: beige;
+  padding: 0;
+  /*margin: 8px;*/
+}
+
+h2 {
+  font-size: 10pt;
+  border-bottom: 1px dotted gray;
+}
+
+ul {
+  margin-left: 0;
+  padding: 0;
+  cursor: default;
+}
+
+li {
+  background: url("../images/arrow_right_spearmint.png") no-repeat center left;
+  padding: 0 0 0 14px;
+
+  list-style: none;
+  margin: 0;
+}
+
+#myGrid {
+  background: white;
+  outline: 0;
+  border: 1px solid gray;
+}
+
+.grid-header {
+  border: 1px solid gray;
+  border-bottom: 0;
+  border-top: 0;
+  background: url('../images/header-bg.gif') repeat-x center top;
+  color: black;
+  height: 24px;
+  line-height: 24px;
+}
+
+.grid-header label {
+  display: inline-block;
+  font-weight: bold;
+  margin: auto auto auto 6px;
+}
+
+.grid-header .ui-icon {
+  margin: 4px 4px auto 6px;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.grid-header .ui-icon.ui-state-hover {
+  background-color: white;
+}
+
+.grid-header #txtSearch {
+  margin: 0 4px 0 4px;
+  padding: 2px 2px;
+  -moz-border-radius: 2px;
+  -webkit-border-radius: 2px;
+  border: 1px solid silver;
+}
+
+.options-panel {
+  -moz-border-radius: 6px;
+  -webkit-border-radius: 6px;
+  border: 1px solid silver;
+  background: #f0f0f0;
+  padding: 4px;
+  margin-bottom: 20px;
+  width: 320px;
+  position: absolute;
+  top: 0px;
+  left: 650px;
+}
+
+/* Individual cell styles */
+.slick-cell.task-name {
+  font-weight: bold;
+  text-align: right;
+}
+
+.slick-cell.task-percent {
+  text-align: right;
+}
+
+.slick-cell.cell-move-handle {
+  font-weight: bold;
+  text-align: right;
+  border-right: solid gray;
+
+  background: #efefef;
+  cursor: move;
+}
+
+.cell-move-handle:hover {
+  background: #b6b9bd;
+}
+
+.slick-row.selected .cell-move-handle {
+  background: #D5DC8D;
+}
+
+.slick-row .cell-actions {
+  text-align: left;
+}
+
+.slick-row.complete {
+  background-color: #DFD;
+  color: #555;
+}
+
+.percent-complete-bar {
+  display: inline-block;
+  height: 6px;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+}
+
+/* Slick.Editors.Text, Slick.Editors.Date */
+input.editor-text {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  margin: 0;
+  background: transparent;
+  outline: 0;
+  padding: 0;
+
+}
+
+.ui-datepicker-trigger {
+  margin-top: 2px;
+  padding: 0;
+  vertical-align: top;
+}
+
+/* Slick.Editors.PercentComplete */
+input.editor-percentcomplete {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  margin: 0;
+  background: transparent;
+  outline: 0;
+  padding: 0;
+
+  float: left;
+}
+
+.editor-percentcomplete-picker {
+  position: relative;
+  display: inline-block;
+  width: 16px;
+  height: 100%;
+  background: url("../images/pencil.gif") no-repeat center center;
+  overflow: visible;
+  z-index: 1000;
+  float: right;
+}
+
+.editor-percentcomplete-helper {
+  border: 0 solid gray;
+  position: absolute;
+  top: -2px;
+  left: -9px;
+  background: url("../images/editor-helper-bg.gif") no-repeat top left;
+  padding-left: 9px;
+
+  width: 120px;
+  height: 140px;
+  display: none;
+  overflow: visible;
+}
+
+.editor-percentcomplete-wrapper {
+  background: beige;
+  padding: 20px 8px;
+
+  width: 100%;
+  height: 98px;
+  border: 1px solid gray;
+  border-left: 0;
+}
+
+.editor-percentcomplete-buttons {
+  float: right;
+}
+
+.editor-percentcomplete-buttons button {
+  width: 80px;
+}
+
+.editor-percentcomplete-slider {
+  float: left;
+}
+
+.editor-percentcomplete-picker:hover .editor-percentcomplete-helper {
+  display: block;
+}
+
+.editor-percentcomplete-helper:hover {
+  display: block;
+}
+
+/* Slick.Editors.YesNoSelect */
+select.editor-yesno {
+  width: 100%;
+  margin: 0;
+  vertical-align: middle;
+}
+
+/* Slick.Editors.Checkbox */
+input.editor-checkbox {
+  margin: 0;
+  height: 100%;
+  padding: 0;
+  border: 0;
+}
