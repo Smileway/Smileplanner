@@ -41,7 +41,9 @@ namespace Smileplanner
         {
             // Add framework services.
             services.AddDbContext<ApplicationDbContext>(options =>
-                //options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
+                // DEL: Switch to SQLServer
+                // options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
+                // ADD: Switch to SQLServer
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddIdentity<ApplicationUser, IdentityRole>()

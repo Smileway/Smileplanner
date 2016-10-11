@@ -1,0 +1,1 @@
+dotnet ef dbcontext scaffold "DefaultConnection" Microsoft.EntityFrameworkCore.SqlServer -f -v

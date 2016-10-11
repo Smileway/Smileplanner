@@ -1,8 +1,5 @@
 {
   "userSecretsId": "aspnet-Smileplanner-01d88277-592a-4c98-b385-a256c6039fa8",
-  "devDependencies": {
-    "gulp-bump": "2.1.0"
-  },
   "dependencies": {
     "Microsoft.NETCore.App": {
       "version": "1.0.1",

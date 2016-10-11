@@ -25,6 +25,8 @@ var TaskNameFormatter = function (row, cell, value, columnDef, dataContext) {
 var dataView;
 var grid;
 var data = [];
+var columns = [];
+var columnsWithHighlightingById = {};
 
 var status_options = {
     "TD": "To Do",
@@ -90,6 +92,7 @@ function percentCompleteSort(a, b) {
 $(function () {
     var indent = 0;
     var parents = [];
+    
     // prepare the data
     for (var i = 0; i < 50; i++) {
         var d = (data[i] = {});
@@ -121,6 +124,19 @@ $(function () {
         
         d["effortDriven"] = (i % 5 == 0);
     }
+
+    columns[1].header = {
+        buttons: [
+        {
+            image: "../images/help.png",
+            showOnHover: true,
+            tooltip: "This button only appears on hover.",
+            handler: function(e) {
+            alert('Help');
+            }
+        }
+        ]
+    };
     // initialize the model
     dataView = new Slick.Data.DataView({ inlineFilters: true });
     dataView.beginUpdate();
