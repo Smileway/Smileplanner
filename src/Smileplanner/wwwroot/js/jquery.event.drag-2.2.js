@@ -178,7 +178,6 @@ drag = $special.drag = {
 			case !dd.dragging && 'touchmove': 
 				event.preventDefault();
 			case !dd.dragging && 'mousemove':
-				//  drag tolerance, x≤ + y≤ = distance≤
 				if ( Math.pow(  event.pageX-dd.pageX, 2 ) + Math.pow(  event.pageY-dd.pageY, 2 ) < Math.pow( dd.distance, 2 ) ) 
 					break; // distance tolerance not reached
 				event.target = dd.target; // force target from "mousedown" event (fix distance issue)
@@ -375,11 +374,7 @@ $event.dispatch = function( event ){
 };
 
 // event fix hooks for touch events...
-var touchHooks = 
-$event.fixHooks.touchstart = 
-$event.fixHooks.touchmove = 
-$event.fixHooks.touchend =
-$event.fixHooks.touchcancel = {
+var touchHooks = { // $event.fixHooks.touchstart = $event.fixHooks.touchmove = $event.fixHooks.touchend = $event.fixHooks.touchcancel =
 	props: "clientX clientY pageX pageY screenX screenY".split( " " ),
 	filter: function( event, orig ) {
 		if ( orig ){
