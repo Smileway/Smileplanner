@@ -6,7 +6,8 @@ namespace Smileplanner.DAL
     public partial class Ticket
     {
         public Guid Id { get; set; }
-        public string ProjName { get; set; }
+        public Guid? ProjectId { get; set; }
+        public string ProjectName { get; set; }
         public int? No { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
@@ -22,5 +23,7 @@ namespace Smileplanner.DAL
         public string Status { get; set; }
         public bool? IsDone { get; set; }
         public bool? IsChildExist { get; set; }
+
+        public virtual Project Project { get; set; }
     }
 }
