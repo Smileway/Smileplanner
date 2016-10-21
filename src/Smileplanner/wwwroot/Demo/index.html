@@ -1,0 +1,66 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <title>React Tutorial</title>
+  
+  <script type="text/javascript" src="/js/react.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.8/react-with-addons.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.8/react-dom.js"></script>
+  <script type="text/javascript" src="/js/react-data-grid.js"></script>
+  <script type="text/javascript" src="/js/react-data-grid.ui-plugins.js"></script>
+</head>
+
+<body>
+  <div id="content"></div>
+  <script>
+      var _rows = [];
+      for (var i = 1; i < 1000; i++) {
+        _rows.push({
+          id: i,
+          title: 'Title ' + i,
+          count: i * 1000
+        });
+      }
+
+      //A rowGetter function is required by the grid to retrieve a row for a given index
+      var rowGetter = function(i){
+        return _rows[i];
+      };
+
+
+      var columns = [
+      {
+        key: 'id',
+        name: 'ID'
+      },
+      {
+        key: 'title',
+        name: 'Title'
+      },
+      {
+        key: 'count',
+        name: 'Count'
+      }
+      ]
+
+      var Example = React.createClass({displayName: "Example",
+        render: function() {
+          return  (React.createElement(ReactDataGrid, {
+          columns: columns, 
+          rowGetter: rowGetter, 
+          rowsCount: _rows.length, 
+          minHeight: 500}));
+        }
+      });
+      ReactDOM.render(React.createElement(Example, null), document.getElementById('content'));
+    </script>
+  <script type="text/babel">
+      // To get started with this tutorial running your own code, simply remove
+      // the script tag loading scripts/example.js and start writing code here.
+    </script>
+</body>
+
+</html>

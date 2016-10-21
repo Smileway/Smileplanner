@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>React Tutorial</title>
+  <!-- Not present in the tutorial. Just for basic styling. -->
+  <!-- Custom styles for our template -->
+  <link rel="stylesheet" href="http://adazzle.github.io/react-data-grid/assets/css/bootstrap.min.css">
+  <link rel="stylesheet" href="http://adazzle.github.io/react-data-grid/assets/css/bootstrap-theme.css" media="screen">
+  <link rel="stylesheet" href="http://adazzle.github.io/react-data-grid/assets/css/main.css">
+  <link rel="stylesheet" href="http://adazzle.github.io/react-data-grid/build/react-data-grid.css">
+  <link rel="stylesheet" href="http://adazzle.github.io/react-data-grid/assets/css/codemirror.css">
+  <link rel="stylesheet" href="http://adazzle.github.io/react-data-grid/assets/css/examples.css">
+  <link rel="stylesheet" href="http://adazzle.github.io/react-data-grid/assets/css/react-context-menu.css">
+  <link rel="stylesheet" href="css/base.css" />
+  <script src="https://unpkg.com/react@15.3.0/dist/react.js"></script>
+  <script src="https://unpkg.com/react-dom@15.3.0/dist/react-dom.js"></script>
+  <script type="text/javascript" src="react-data-grid/dist/react-data-grid.js"></script>
+  <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+  <script src="https://unpkg.com/jquery@3.1.0/dist/jquery.min.js"></script>
+  <script src="https://unpkg.com/remarkable@1.7.1/dist/remarkable.min.js"></script>
+
+  <script src="http://adazzle.github.io/react-data-grid/build/react-data-grid.ui-plugins.js"></script>
+  <script src="http://adazzle.github.io/react-data-grid/build/react-data-grid.js"></script>
+  <script src="http://adazzle.github.io/react-data-grid/build/shared.js"></script>
+  <script src="http://adazzle.github.io/react-data-grid/build/examples.js"></script>
+  <script src="http://adazzle.github.io/react-data-grid/assets/js/dropdown.js"></script>
+</head>
+
+<body>
+  <div id="content"></div>
+  <!--<script type="text/babel" src="scripts/example.js"></script>-->
+  <script type="text/javascript">
+      //options for priorities autocomplete editor
+      var priorities = [{id:0, title : 'Critical'}, {id:1, title : 'High'}, {id:2, title : 'Medium'}, {id:3, title : 'Low'}]
+      var AutoCompleteEditor = ReactDataGridPlugins.Editors.AutoComplete;
+      var PrioritiesEditor = React.createElement(AutoCompleteEditor, {options: priorities})
+
+      //options for IssueType dropdown editor
+      //these can either be an array of strings, or an object that matches the schema below.
+      var issueTypes = [
+        { id: 'bug', value: 'bug', text: 'Bug', title: 'Bug' },
+        { id: 'improvement', value: 'improvement', text: 'Improvement', title: 'Improvement' },
+        { id: 'epic', value: 'epic', text: 'Epic', title: 'Epic' },
+        { id: 'story', value: 'story', text: 'Story', title: 'Story' }
+      ];
+      var DropDownEditor = ReactDataGridPlugins.Editors.DropDownEditor;
+      var IssueTypesEditor = React.createElement(DropDownEditor, {options: issueTypes});
+
+      var DropDownFormatter = ReactDataGridPlugins.Formatters.DropDownFormatter;
+      var IssueTypesFormatter = React.createElement(DropDownFormatter, {options: issueTypes});
+
+      //helper to generate a random date
+      function randomDate(start, end) {
+        return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime())).toLocaleDateString();
+      }
+
+      //helper to create a fixed number of rows
+      function createRows(numberOfRows){
+        var _rows = [];
+        for (var i = 1; i < numberOfRows; i++) {
+          _rows.push({
+            id: i,
+            task: 'Task ' + i,
+            complete: Math.min(100, Math.round(Math.random() * 110)),
+            priority : ['Critical', 'High', 'Medium', 'Low'][Math.floor((Math.random() * 3) + 1)],
+            issueType : issueTypes[Math.floor((Math.random() * 3) + 1)].value,
+            startDate: randomDate(new Date(2015, 3, 1), new Date()),
+            completeDate: randomDate(new Date(), new Date(2016, 0, 1)),
+            complete: Math.min(100, Math.round(Math.random() * 110))
+          });
+        }
+        return _rows;
+      }
+
+      //Custom Formatter component
+      var PercentCompleteFormatter = React.createClass({displayName: "PercentCompleteFormatter",
+        render:function(){
+          var percentComplete = this.props.value + '%';
+          return (
+            React.createElement("div", {className: "progress", style: {marginTop:'20px'}}, 
+              React.createElement("div", {className: "progress-bar", role: "progressbar", "aria-valuenow": "60", "aria-valuemin": "0", "aria-valuemax": "100", style: {width:percentComplete}}, 
+              percentComplete
+            )
+            ));
+          }
+        });
+      //Columns definition
+      var columns = [
+      {
+        key: 'id',
+        name: 'ID',
+        width: 80
+      },
+      {
+        key: 'task',
+        name: 'Title',
+        editable : true
+      },
+      {
+        key : 'priority',
+        name : 'Priority',
+        editor : PrioritiesEditor
+      },
+      {
+        key : 'issueType',
+        name : 'Issue Type',
+        editor : IssueTypesEditor,
+        formatter: IssueTypesFormatter
+      },
+      {
+        key: 'complete',
+        name: '% Complete',
+        formatter : PercentCompleteFormatter,
+        editable : true
+      }
+      ]
+
+
+
+      var Example = React.createClass({displayName: "Example",
+
+        getInitialState : function(){
+          return {rows : createRows(1000)}
+        },
+
+        rowGetter : function(rowIdx){
+          return this.state.rows[rowIdx]
+        },
+
+        handleRowUpdated : function(e){
+          //merge updated row with current row and rerender by setting state
+          var rows = this.state.rows;
+          Object.assign(rows[e.rowIdx], e.updated);
+          this.setState({rows:rows});
+        },
+
+        render:function(){
+          return(
+            React.createElement(ReactDataGrid, {
+            enableCellSelect: true, 
+            columns: columns, 
+            rowGetter: this.rowGetter, 
+            rowsCount: this.state.rows.length, 
+            minHeight: 500, 
+            onRowUpdated: this.handleRowUpdated})
+          )
+        }
+
+      });
+
+      ReactDOM.render(React.createElement(Example, null), document.getElementById('content'));
+    </script>
+</body>
+
+</html>
