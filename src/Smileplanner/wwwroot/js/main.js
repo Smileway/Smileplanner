@@ -1,6 +1,3 @@
-
-
-
 function requiredFieldValidator(value) {
     if (value == null || value == undefined || !value.length) {
         return { valid: false, msg: "This is a required field" };
@@ -8,20 +5,6 @@ function requiredFieldValidator(value) {
         return { valid: true, msg: null };
     }
 }
-var TaskNameFormatter = function (row, cell, value, columnDef, dataContext) {
-    value = value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-    var spacer = "<span style='display:inline-block;height:1px;width:" + (15 * dataContext["indent"]) + "px'></span>";
-    var idx = dataView.getIdxById(dataContext.id);
-    if (data[idx + 1] && data[idx + 1].indent > data[idx].indent) {
-        if (dataContext._collapsed) {
-            return spacer + " <span class='toggle expand'></span>&nbsp;" + value;
-        } else {
-            return spacer + " <span class='toggle collapse'></span>&nbsp;" + value;
-        }
-    } else {
-        return spacer + " <span class='toggle'></span>&nbsp;" + value;
-    }
-};
 var dataView;
 var grid;
 var data = [];
@@ -34,29 +17,35 @@ var status_options = {
     "IR": "In Review"
 };
 var type_options = {
+    "RM": "Roadmap",
     "US": "User Stories",
     "T": "Task",
     "B": "Bug"
 };
 
-var priority_options = { "Low": "Low", "Medium": "Medium", "High": "High" };
+var priority_options = { "L": "Low", "M": "Medium", "H": "High" };
 var resource_options = {
     "HN": "Huy Nguyen",
-    "TQ": "Tran Quan"
+    "TQ": "Tran Quan",
+    "TQ2": "Tran Quan 2",
+    "TQ3": "Tran Quan 4",
+    "TQ4": "Tran Quan 5",
+    "TQ5": "Tran Quan 6"
 };
 var columns = [
     { id: "sel", name: "#", field: "num", behavior: "select", cssClass: "cell-selection", width: 40, cannotTriggerInsert: true, resizable: false, selectable: false },
-    { id: "title", name: "Title", field: "title", width: 220, cssClass: "cell-title", formatter: TaskNameFormatter, editor: Slick.Editors.Text, validator: requiredFieldValidator },
+    { id: "title", name: "Title", field: "title", width: 220, cssClass: "cell-title", formatter: Slick.Formatters.TaskName, editor: Slick.Editors.Text, validator: requiredFieldValidator },
     { id: "type", name: "Type", field: "type", minWidth: 80, editor: Slick.Editors.Select, options: type_options },
+    { id: "priority", name: "Priority", field: "priority", width: 60, selectable: false, resizable: false, formatter: Slick.Formatters.PriorityStatus},
     { id: "duration", name: "Duration", field: "duration", editor: Slick.Editors.Text },
     { id: "%", name: "% Complete", field: "percentComplete", width: 80, resizable: false, formatter: Slick.Formatters.PercentCompleteBar, editor: Slick.Editors.PercentComplete },
     { id: "start", name: "Start", field: "start", minWidth: 60, editor: Slick.Editors.Date },
     { id: "finish", name: "Finish", field: "finish", minWidth: 60, editor: Slick.Editors.Date },
     { id: "status", name: "Status", field: "status", minWidth: 80, editor: Slick.Editors.Select, options: status_options },
-    { id: "priority", name: "Priority", field: "priority", width: 80, selectable: false, resizable: false},
     { id: "pic", name: "PIC", field: "pic", minWidth: 80, editor: Slick.Editors.Selects, options: resource_options },
     { id: "done", name: "Is Done?", width: 80, minWidth: 20, maxWidth: 80, cssClass: "cell-effort-driven", field: "effortDriven", formatter: Slick.Formatters.Checkmark, editor: Slick.Editors.Checkbox, cannotTriggerInsert: true },
-    { id: "desc", name: "Description", field: "description", width: 200, editor: Slick.Editors.LongText }
+    { id: "desc", name: "Description", field: "description", width: 200, editor: Slick.Editors.LongText },
+    { id: "roadmap", name: "Roadmap", field: "roadmap", minWidth: 80 }
 ];
 var options = {
     editable: true,
@@ -94,7 +83,7 @@ $(function () {
     var parents = [];
     
     // prepare the data
-    for (var i = 0; i < 50; i++) {
+    for (var i = 0; i < 1000; i++) {
         var d = (data[i] = {});
         var parent;
         if (Math.random() > 0.8 && i > 0) {
@@ -119,7 +108,7 @@ $(function () {
         d["percentComplete"] = Math.round(Math.random() * 100);
         d["start"] = "01/01/2009";
         d["finish"] = "01/05/2009";
-        d["priority"] = "Low";
+        d["priority"] = "L";
         //d["pic"];
         
         d["effortDriven"] = (i % 5 == 0);
@@ -171,7 +160,44 @@ $(function () {
         dataView.addItem(item);
     });
 
-    grid.onClick.subscribe(function (e, args) {
+    // grid.onClick.subscribe(function (e, args) {
+    //     var cell = grid.getCellFromEvent(e);
+    //     if (grid.getColumns()[cell.cell].id == "priority") {
+    //         if (!grid.getEditorLock().commitCurrentEdit()) {
+    //         return;
+    //         }
+    //         //data[cell.row].priority = priority_options[data[cell.row].priority];
+    //         switch (data[cell.row].priority) {
+    //             default:
+    //             case "Low":
+    //                 data[cell.row].priority = "Medium";
+    //             break;
+    //             case "Medium":
+    //                 data[cell.row].priority = "High";
+    //             break;
+    //             case "High":
+    //                 data[cell.row].priority = "Low";
+    //             break;
+    //         }
+    //         grid.updateRow(cell.row);
+    //         e.stopPropagation();
+    //     }
+
+    //     if ($(e.target).hasClass("toggle")) {
+    //         var item = dataView.getItem(args.row);
+    //         if (item) {
+    //             if (!item._collapsed) {
+    //                 item._collapsed = true;
+    //             } else {
+    //                 item._collapsed = false;
+    //             }
+    //             dataView.updateItem(item.id, item);
+    //         }
+    //         e.stopImmediatePropagation();
+    //     }
+    // });
+
+    grid.onClick.subscribe(function (e, args) { // onDblClick
         var cell = grid.getCellFromEvent(e);
         if (grid.getColumns()[cell.cell].id == "priority") {
             if (!grid.getEditorLock().commitCurrentEdit()) {
@@ -180,14 +206,14 @@ $(function () {
             //data[cell.row].priority = priority_options[data[cell.row].priority];
             switch (data[cell.row].priority) {
                 default:
-                case "Low":
-                    data[cell.row].priority = "Medium";
+                case "L":
+                    data[cell.row].priority = "M";
                 break;
-                case "Medium":
-                    data[cell.row].priority = "High";
+                case "M":
+                    data[cell.row].priority = "H";
                 break;
-                case "High":
-                    data[cell.row].priority = "Low";
+                case "H":
+                    data[cell.row].priority = "L";
                 break;
             }
             grid.updateRow(cell.row);
@@ -207,6 +233,7 @@ $(function () {
             e.stopImmediatePropagation();
         }
     });
+
     // wire up model events to drive the grid
     dataView.onRowCountChanged.subscribe(function (e, args) {
         grid.updateRowCount();
@@ -240,3 +267,6 @@ $(function () {
         dataView.refresh();
     })
 })
+
+
+

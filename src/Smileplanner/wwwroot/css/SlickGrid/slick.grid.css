@@ -134,7 +134,7 @@ classes should alter those!
   z-index: 11;
   overflow: visible;
   background: white;
-  border-color: black;
+  border-color: rgb(66, 133, 244);
   border-style: solid;
 }
 
