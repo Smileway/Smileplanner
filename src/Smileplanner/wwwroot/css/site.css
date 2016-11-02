@@ -349,3 +349,12 @@ input.editor-checkbox {
   padding: 0;
   border: 0;
 }
+
+.ui-widget-content.slick-row.odd.active div
+{
+    background-color: aliceblue;
+}
+.ui-widget-content.slick-row.even.active div
+{
+    background-color: antiquewhite;
+}

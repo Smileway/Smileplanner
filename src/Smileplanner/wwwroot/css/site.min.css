@@ -349,3 +349,9 @@ input.editor-checkbox {
   padding: 0;
   border: 0;
 }
+
+
+.slick-row.active:nth-child()
+{
+    background-color: aliceblue;
+}

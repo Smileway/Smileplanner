@@ -45,6 +45,7 @@ var columns = [
     { id: "pic", name: "PIC", field: "pic", minWidth: 80, editor: Slick.Editors.Selects, options: resource_options },
     { id: "done", name: "Is Done?", width: 80, minWidth: 20, maxWidth: 80, cssClass: "cell-effort-driven", field: "effortDriven", formatter: Slick.Formatters.Checkmark, editor: Slick.Editors.Checkbox, cannotTriggerInsert: true },
     { id: "desc", name: "Description", field: "description", width: 200, editor: Slick.Editors.LongText },
+    { id: "comment", name: "Comment", field: "comment", width: 200, editor: Slick.Editors.LongText },
     { id: "roadmap", name: "Roadmap", field: "roadmap", minWidth: 80 }
 ];
 var options = {
@@ -78,12 +79,17 @@ function myFilter(item) {
 function percentCompleteSort(a, b) {
     return a["percentComplete"] - b["percentComplete"];
 }
+function AddNewRow() {
+    dataView.addItem({id: "12345", title: "secKey", parent:"id_1", indent:1});
+    grid.invalidate();
+    dataView.refresh();
+}
 $(function () {
     var indent = 0;
     var parents = [];
     
     // prepare the data
-    for (var i = 0; i < 1000; i++) {
+    for (var i = 0; i < 50; i++) {
         var d = (data[i] = {});
         var parent;
         if (Math.random() > 0.8 && i > 0) {
